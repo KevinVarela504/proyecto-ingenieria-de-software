@@ -1,0 +1,204 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <div class="col-lg-6 col-md-4 col-sm-12 col-12 mx-2">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-12 mx-2">
+          <button class="btn btn-primary m-2 text-ligth" data-bs-toggle="modal" data-bs-target="#crearevento">
+            <fa-icon [icon]="faPlus"></fa-icon>
+            Generar evento
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-12 col-12 mx-2" >
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" [(ngModel)]="keyword" aria-label="Buscar" placeholder="Introduzca un nombre o fecha">
+        <div class="btn btn-primary">Buscar</div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="d-flex flex-wrap">
+      <div class="card col-lg-3 col-xl-3 col-md-3 col-sm-6 col-12 p-0 m-2" style="width: 18vw; cursor: pointer" *ngFor="let evento of eventosLista | filter:keyword; let i = index" (click)="viewEvent(evento.eventId, evento.userId) ">
+        <!-- <img [src]="evento.photo" class="card-img-top" alt="..."> -->
+        <div class="card-img-top adjust-back" style="background-image: url({{evento.photo}})"></div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-10">
+              <h5 class="card-title">{{evento.name}}</h5>
+          <div class="card-text">{{evento.startDate|date:'dd-MM-yyyy'}} - {{evento.endDate|date:'dd-MM-yyyy'}}</div>
+          <div class="card-text">{{evento.modality}}</div>
+            </div>
+            <div class="col-2" style="position: relative;">
+              <fa-icon style="color: red;" class="fs-2" [icon]="faBookmark"></fa-icon>
+              <fa-icon style="color: white; position: absolute;
+              left: 18px;
+              top: 10px;
+              font-size: 0.8rem;" [icon]="faLock"></fa-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Generar Evento -->
+<div class="modal fade" id="crearevento" tabindex="-1" aria-labelledby="creareventoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="bg-primary d-flex justify-content-start" style="height: 8vw;">
+              <img src="../../../../assets/images/ESLogo.svg" alt="...">
+        </div>
+        <form [formGroup]="eventoForm">
+          <div>
+            <div class="row px-5">
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" formControlName="name" class="form-control" id="nombre" placeholder="">
+                <div class="alert-danger" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+                  <div class="container-error-message" *ngIf="name?.errors?.required">
+                    Campo obligatorio
+                  </div>
+                  <div class="container-error-message" *ngIf="name?.errors?.pattern">
+                    No es un nombre válido
+                  </div>
+                  <div  class="container-error-message" *ngIf="name?.errors?.maxLength">
+                    El tamaño excede
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="institucion" class="form-label">Institución que representa:</label>
+                <select formControlName="institutionId" class="form-select form-select" name="institucion" aria-label=".form-select-sm institucion">
+                  <option *ngFor="let institution of institutions, let i = index" [value]=institution.InstitutionID type="number">
+                    {{institution.name}}
+                  </option>
+
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="inicio" class="form-label">Fecha de inicio:</label>
+                <input formControlName="startDate" type="date" [min]="fechaStrMinima"  class="form-control" id="inicio" placeholder="">
+                <div class="alert-danger" *ngIf="startDate?.invalid && (startDate?.dirty || startDate?.touched)">
+                  <div class="container-error-message" *ngIf="startDate?.errors?.required">
+                    Campo obligatorio
+                  </div>
+                  <div class="container-error-message" *ngIf="startDate?.hasError">
+                    fecha de inicio no debe ser menor que la de hoy
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="final" class="form-label">Fecha final:</label>
+                <input formControlName="endDate" type="date" [min]="fechaStrMinima" class="form-control" id="final" placeholder="">
+                <div class="alert-danger" *ngIf="endDate?.invalid && eventoForm?.invalid && (endDate?.dirty || endDate?.touched)">
+                  <div class="container-error-message" *ngIf="endDate?.errors?.required">
+                    Campo obligatorio
+                  </div>
+
+                </div>
+                <div class="alert-danger"*ngIf="eventoForm.hasError('dateValid')">
+                  <div class="container-error-message" *ngIf="eventoForm.hasError('dateValid')"  >
+                    Asegúrese que la fecha final es mayor que la de inicio
+                  </div>
+                </div>
+
+              </div>
+              <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <textarea formControlName="description_" class="form-control" id="descripcion" rows="4"></textarea>
+                <div class="alert-danger" *ngIf="description_?.invalid && (description_?.dirty || description_?.touched)">
+                  <div class="container-error-message" *ngIf="description_?.errors?.required">
+                    Campo obligatorio
+                  </div>
+                  <div class="container-error-message" *ngIf="description_?.errors?.pattern">
+                    No es un nombre válido
+                  </div>
+                  <div  class="container-error-message" *ngIf="description_?.errors?.maxLength">
+                    El tamaño excede
+                  </div>
+                </div>
+              </div>
+              <div class="form-group mb-3">
+                <label for="" class="form-label">Seleccione imagen a utilizar:</label><br>
+                <div class="file-field md-form">
+                  <div mdbBtn rounded="true" gradient="aqua" size="md" mdbWavesEffect>
+                    <input mdbFileSelect formControlName="photo" type="file" name="image" (change)="capturarFile($event)" id="image">
+                  </div>
+                  <div class="progress " style="margin-top: 20px;">
+                    <div class="progress-bar progress-bar-success active" role="progressbar" [style.width]="(uploadPercent | async) +'%'"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="modalidad" class="form-label">Privacidad:</label>
+                <div class="d-flex">
+                  <div class="form-check">
+                    <input formControlName="openEvent" class="form-check-input" type="radio"  id="radiomodalidad1" checked (click)="changeMod(1)"[value]=true>
+                    <label class="form-check-label" for="radiomodalidad1">
+                      Abierto
+                    </label>
+                  </div>
+                  <div class="form-check mx-4">
+                    <input formControlName="openEvent" class="form-check-input" type="radio"  id="radiomodalidad2" (click)="changeMod(2)"[value]=false>
+                    <label class="form-check-label" for="radiomodalidad2">
+                      Cerrado
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+              <div *ngIf="openEvent?.value==false">
+                <input formControlName="listWhite"type="file" name="excel" accept=".xls,.xlsx" (change)="capturarExcel($event)" id="excel">
+              </div>
+              <!--button type="button" class="btn btn-secondary" style="font-size: smaller;" *ngIf="privacy == 'privado'">Inserte lista de participantes</button-->
+              <!--<div class="mb-3">
+                <input type="text"  class="form-control" id="ubicacion" placeholder="Ubicación" *ngIf="mode == 'presencial'">
+                <div class="alert-danger" *ngIf="openEvent?.invalid && (openEvent?.dirty || openEvent?.touched)">
+                  <div class="container-error-message" *ngIf="openEvent?.errors?.required">
+                    Campo obligatorio
+                  </div>
+                </div>
+              </div> -->
+              <!--div class="mb-3">
+                <label for="cantidad" class="form-label">Cantidad de participantes:</label>
+                <input formControlName="places" type="number" min=0 class="form-control" id="cantidad" placeholder="">
+                <div class="alert-danger" *ngIf="places?.invalid && (places?.dirty || places?.touched)">
+                  <div class="container-error-message" *ngIf="places?.errors?.min">
+                    No se admiten valores negativos
+                  </div>
+                </div>
+              </div-->
+              <!--div class="mb-3 d-flex">
+                <div class="form-check">
+                  <input formControlName="modality" class="form-check-input" type="radio"  id="radioprivacidad1" (click)="changePriv(1)" checked value=Virtual>
+                  <label class="form-check-label" for="radioprivacidad1">
+                    Virtual
+                  </label>
+                </div>
+                <div class="form-check mx-4">
+                  <input formControlName="modality" class="form-check-input" type="radio"  id="radioprivacidad2" (click)="changePriv(2)" value=Presencial>
+                  <label class="form-check-label" for="radioprivacidad2">
+                    Presencial
+                  </label>
+                </div>
+                <button type="button" class="btn btn-secondary" style="font-size: smaller;" *ngIf="privacy == 'privado'">Inserte lista de participantes</button>
+              </div-->
+              <div class="mb-5 d-flex justify-content-center">
+                <button  type="button" [disabled]="!eventoForm.valid" class="btn btn-warning" (click)="createEvents()"  >Generar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

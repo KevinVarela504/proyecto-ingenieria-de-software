@@ -1,0 +1,25 @@
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <!-- Bar Chart -->  
+      <a class="nav-link" routerLink="estadisticas/evento-hora">Eventos por día</a>
+    </li>
+    <!--
+    <li class="nav-item">
+      <!-- Doughnout Chart
+      <a class="nav-link" routerLink="estadisticas/evento-institucion">Eventos por institución</a>
+    </li>
+    --> 
+    <li class="nav-item">
+      <!-- Radar Chart -->  
+      <a class="nav-link" routerLink="estadisticas/evento-estado">Eventos por estado</a>
+    </li>
+    <li class="nav-item">
+      <!-- Pie Chart -->  
+      <a class="nav-link" routerLink="estadisticas/evento-usuario">Eventos por organizador</a>
+    </li>
+  </ul>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.justify-content-right {
+  justify-content: right !important;
+}

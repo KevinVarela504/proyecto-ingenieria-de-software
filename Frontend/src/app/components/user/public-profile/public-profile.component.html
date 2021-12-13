@@ -1,0 +1,204 @@
+
+  <div class="container">
+    
+    <div class="">
+      <div class="d-flex flex-wrap">
+
+        <!-- <div style="position: relative;">
+          
+          <div style="z-index: 10; background-color: gray; border-radius: 100%; height: 10vw; width: 10vw; margin: auto; top: -4vw; position: relative;">
+            <img [src]="" alt="" style="width: 100%; height: 100%; border-radius: 100%;">
+            <input type="file" name="perfil" id="perfil" style="visibility: hidden;" >
+            <label for="perfil" class="perfil-registro">
+              <fa-icon [icon]="faCamera"></fa-icon>
+            </label>
+          </div>
+        </div> -->
+
+        <form [formGroup]="managerInfoForm" >
+          <div style="z-index: 10; background-color: gray; border-radius: 100%; height: 10vw; width: 10vw; margin: auto; top: -4vw; position: relative;">
+            <img [src]="profilePhotoUser" alt="" style="width: 100%; height: 100%; border-radius: 100%;">
+            <input [readonly]="true" type="file" formControlName="profilePhoto" name="perfil" id="perfil" style="visibility: hidden;"  (change)="cambiarImagen($event)">
+            <label id="faperfil" for="perfil" class="perfil-registro" style="visibility: hidden;">
+              <fa-icon [icon]="faCamera"></fa-icon>
+            </label>
+          </div>
+          <div>
+            <div class="row px-5">
+              <!--
+              <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico:</label>
+                <input type="email" formControlName="email" class="form-control" id="email" placeholder="">
+              </div>
+              -->
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre Completo:</label>
+                <input type="text" formControlName="firstName" class="form-control" id="firstName" placeholder="" >
+                <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger" >
+                    <div class="container-error-message"  *ngIf="firstName?.errors?.required" >
+                      Campo obligatorio
+                    </div>
+                    <div class="container-error-message" *ngIf="firstName?.errors?.pattern" >
+                      No es un nombre válido
+                    </div>
+                </div>
+                <!--
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Segundo nombre:</label>
+                  <input type="text" formControlName="middleName" class="form-control" id="middleName" placeholder="">
+                  
+                    <div *ngIf="middleName?.invalid && (middleName?.dirty || middleName?.touched)" class="alert-danger" >
+                      <div class="container-error-message" *ngIf="middleName?.errors?.pattern">
+                        Este no es un nombre válido
+                      </div>
+                    </div>
+                  
+                </div>
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Primer apellido:</label>
+                  <input type="text" formControlName="lastName" class="form-control" id="lastName" placeholder="">
+                
+                    <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert-danger">
+                      <div class="container-error-message" *ngIf="lastName?.errors?.required"  >
+                        El tamaño no es aceptable
+                      </div>
+                      <div class="container-error-message" *ngIf="lastName?.errors?.pattern">
+                        Este no es un nombre válido
+                      </div>
+                    </div>
+                
+                </div>
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Segundo apellido:</label>
+                  <input type="text" formControlName="secondLastName" class="form-control" id="secondLastName" placeholder="">
+                    
+                    <div class="alert-danger" *ngIf="secondLastName?.invalid && (secondLastName?.dirty || secondLastName?.touched)">
+                      <div class="container-error-message" *ngIf="secondLastName?.errors?.required">
+                        El tamaño no es aceptable
+                      </div>
+                      <div class="container-error-message" *ngIf="secondLastName?.errors?.pattern">
+                        Este no es un nombre válido
+                      </div>
+                    </div>
+                  </div>
+                -->
+              </div>
+              <div class="mb-3">
+                <label for="" class="form-label">Institución que representa:</label>
+                <select id="institutionSelect"  formControlName="institutionRepresenting" class="form-select form-select" name="" aria-label=".form-select-sm ">
+                  <option *ngFor="let institution of institutions, let i = index" [value]=institution.InstitutionID type="number">
+                    {{institution.name}}
+                  </option>
+                  <option value=0 > Otra</option>
+                </select>
+              </div>
+              <!--
+              <div class="mb-3">
+                <form >
+                  <label for="otra" class="form-label" >Introduzca una nueva institución:</label>
+                  <input formControlName="name" type="text" class="form-control" id="otra" placeholder="">
+                </form>
+              </div>
+              <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico:</label>
+                <input type="email" formControlName="email" class="form-control" id="correo" placeholder="">
+                  <div class="alert-danger">
+                    <div class="container-error-message" >
+                      Campo obligatorio
+                    </div>
+                    <div class="container-error-message" >
+                      No es un correo válido
+                    </div>
+                  </div>
+                </div>
+              -->
+              <!--
+              <div class="mb-3">
+                <label for="contrasenia" class="form-label">Contraseña:</label>
+                <input type="password" formControlName="password_" class="form-control" id="contrasenia" placeholder="">
+                  <div class="alert-danger" >
+                    <div class="container-error-message" >
+                      Campo obligatorio
+                    </div>
+                    <div class="container-error-message" >
+                      Mínimo 5 caracteres
+                    </div>
+                  </div>
+              </div>
+              <div class="mb-3">
+                <label for="contrasenia" class="form-label">Confirme su contraseña:</label>
+                <input type="password" formControlName="repassword_" class="form-control" id="recontrasenia" placeholder="">
+                  <div class="alert-danger" >
+                    <div class="container-error-message" >
+                      Campo obligatorio
+                    </div>
+                    <div class="container-error-message">
+                      Mínimo 5 caracteres
+                    </div>
+                    <div class="alert-danger" >
+                      <div class="container-error-message" >
+                        Las contraseñas no coinciden
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              -->
+              <!--<div class="mb-3">
+                <label for="contrasenia2" class="form-label">Confirme su contraseña:</label>
+                <input type="password" class="form-control" id="contrasenia2" placeholder="">
+              </div> -->
+              <div class="mb-3">
+                <label for="formacion" class="form-label">Formación académica:</label>
+                <input formControlName="academicTraining" type="text" class="form-control" id="academicTraining" placeholder="">
+
+                  <div *ngIf="academicTraining?.invalid && (academicTraining?.dirty || academicTraining?.touched)" class="alert-danger" >
+                    <div class="container-error-message"  *ngIf="academicTraining?.errors?.required" >
+                      Campo obligatorio
+                    </div>
+                    <div class="container-error-message" *ngIf="academicTraining?.errors?.pattern" >
+                      Mínimo 5 caracteres
+                    </div>
+                  </div>
+
+              </div>
+              <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <textarea  formControlName="description_" class="form-control" id="description_" rows="4"></textarea>
+                
+                  <div class="alert-danger" *ngIf="description_?.invalid && (description_?.dirty || description_?.touched)">
+                    <div class="container-error-message" *ngIf="description_?.errors?.required">
+                      Campo obligatorio
+                    </div>
+                    
+                  </div>
+                </div>
+              <div class="mb-3">
+                <label for="intereses" class="form-label">Intereses:</label>
+                <input type="text" formControlName="interests" class="form-control" id="interests" placeholder="">
+                  
+                  <div class="alert-danger"  *ngIf="interests?.invalid && (interests?.dirty || interests?.touched)" >
+                    <div class="container-error-message" *ngIf="interests?.errors?.required">
+                      Campo obligatorio
+                    </div>
+                    
+                  </div>
+              </div>
+              <!--
+              <div class="mb-5 d-flex justify-content-center">
+                <button  [disabled]="!updateUserForm.valid" class="btn btn-warning rounded-2" id="saveBtn" type="button" (click)="UpdateUser()">
+                  <fa-icon class="pr-4" [icon]="faSave"></fa-icon>
+                  Guardar cambios
+                </button>
+                <button class="btn btn-warning rounded-2" id="editBtn" data-bs-toggle="" data-bs-target="" (click)="EditUser()">
+                  <fa-icon class="pr-4" [icon]="faPencil"></fa-icon>
+                  Editar
+                </button>
+              </div>
+              -->
+            </div>
+          </div>
+        </form>  
+
+      </div>
+    </div>
+  </div>

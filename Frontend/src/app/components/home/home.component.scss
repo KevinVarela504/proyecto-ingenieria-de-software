@@ -1,0 +1,28 @@
+.alert-danger{
+    color: #721c47;
+    background: #f8d7da ;
+    border-color: #f5c6cb;
+    margin-bottom: 5;
+    font-size: xx-small;
+}
+
+
+.container-error-message{
+    padding: 2px;
+}
+
+.btn-link {
+  color: #3576A0 !important;
+  background-color: transparent;
+  border: none;
+}
+
+.close-restart-password {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+

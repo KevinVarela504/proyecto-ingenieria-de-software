@@ -1,0 +1,81 @@
+<div class="container fz-l">
+  <div class="row mb-3">
+    <div class="d-flex justify-content-start">
+      <!-- <button class="btn btn-primary m-2 text-ligth" data-bs-toggle="modal" data-bs-target="#crearevento">
+        <fa-icon [icon]="faPlus"></fa-icon>
+        Inscribirme
+      </button>
+      <button class="btn btn-primary m-2 text-ligth">
+        <fa-icon [icon]="faTrash"></fa-icon>
+        Cancelar inscripción
+      </button> -->
+      <button class="btn btn-primary m-2 text-ligth" (click)="printPDF()">
+        <fa-icon [icon]="faAsterisk"></fa-icon>
+        Generar programa
+      </button>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div [class]=" i == 0 ?'carousel-item active': 'carousel-item'"  *ngFor="let iimg of imagesEvent; let i = index;">
+          <div class="d-block w-100 adjust-back" style="background-image: url({{iimg.URL}})"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="imgs-cont">
+    <div class="micro-img">
+      <img [src]="imagesEvent[0] !== undefined ? imagesEvent[0].URL: null" alt="">
+    </div>
+    <div class="micro-img">
+      <img [src]="imagesEvent[1] !== undefined ? imagesEvent[1].URL: null" alt="">
+    </div>
+    <div class="micro-img">
+      <img [src]="imagesEvent[2] !== undefined ? imagesEvent[2].URL: null" alt="">
+    </div>
+  </div>
+  <div class="d-flex mb-3">
+    <div>Fecha de inicio: <label for="" class="mx-2">{{event.startDate|date:'dd-MM-yyyy'}}</label></div>
+    <div>Fecha de finalización: <label for="" class="mx-2">{{event.endDate|date:'dd-MM-yyyy'}}</label></div>
+  </div>
+  <div class="row mb-3">
+    <div>Institución: <label for="" class="mx-2">{{event.institutionId}}</label></div>
+    <div>Descripción: {{event.description_}}</div>
+  </div>
+  <div class="row mb-3">
+    <div class="mb-2">Organizador:</div>
+    <div class="d-flex align-items-center" (click)="goToProfile(event.userId)">
+      <!--<div class="sm-avatar mx-2"></div>-->
+      <div class="cp h5">{{event.userId}}</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="row mb-3">
+    <div class="row my-3">Agenda</div>
+    <div class="row mb-3 py-2" style="background-color: #d5caca82; border-radius: 5px;"  *ngFor="let evento of eventosProgramados" >
+      <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+        <div class="d-flex justify-content-between"><div>Fecha de inicio:</div> <div>{{evento.startDate|date:'dd-MM-yyyy'}}</div></div>
+        <div class="d-flex justify-content-between"><div>Fecha de fin:</div> <div>{{evento.endDate|date:'dd-MM-yyyy'}}</div></div>
+         <div class="d-flex justify-content-between"><div>Hora de inicio:</div> <div>{{evento.startHour|date:'h:mma'}}</div></div>
+        <div class="d-flex justify-content-between"><div>Hora de fin:</div> <div>{{evento.endHour|date:'h:mma'}}</div></div>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-12 col-12" style="border-left: solid 2px gray;" >
+        <div class="title-conference">{{evento.name}}</div>
+        <div class="ml-5">Descripción: {{evento.description_}}</div>
+        <div class="ml-5">{{evento.address}}</div>
+        <div class="row mb-3">
+          <div class="d-flex align-items-center justify-content-center" (click)="goToProfile(evento.managerId)">
+            <div class="mb-2">Encargado:</div>
+            <!--<div class="sm-avatar"></div>-->
+            <div class="mx-2 cp h5">{{evento.managerId}}</div>
+          </div>
+        </div>
+        <div class="mb-2 d-flex justify-content-right">
+          <button [disabled]="" style="margin-right: 10px;" type="button" class="btn btn-warning" (click)="createInscription(evento.scheduledEventId)">Inscribirme</button>
+           <button [disabled]="" type="button" class="btn btn-warning" (click)="deleteInscription(evento.scheduledEventId)">Cancelar inscripción</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
